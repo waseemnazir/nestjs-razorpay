@@ -1,0 +1,19 @@
+version: '3'
+services:
+  mycampus_api_dev:
+    container_name: mycampus_api_dev
+    build:
+      context: .
+      dockerfile: Dev.Dockerfile
+    ports:
+      - 5003:5003
+    env_file:
+      - .env.dev
+    networks:
+      - mycampus_dev
+networks:
+  mycampus_dev:
+    external: true
+    driver: bridge
+  shared:
+    driver: bridge
