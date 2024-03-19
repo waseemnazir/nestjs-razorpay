@@ -5,6 +5,9 @@ import { TypeOrmConfigService } from "./database/typeorm-config.service";
 
 import { ConfigModule } from "@nestjs/config";
 import { TypeOrmModule } from "@nestjs/typeorm";
+import { PaymentsModule } from "./payments/payments.module";
+import { RazorpayModule } from "nestjs-razorpay";
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -19,6 +22,11 @@ import { TypeOrmModule } from "@nestjs/typeorm";
         return dataSource;
       },
     }),
+    RazorpayModule.forRoot({
+      key_id: process.env.RAZORPAY_KEY_ID,
+      key_secret: process.env.RAZORPAY_SECRET_KEY,
+    }),
+    PaymentsModule,
   ],
 })
 export class AppModule {}

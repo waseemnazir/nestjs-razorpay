@@ -1,15 +1,6 @@
-import { appConfig } from './app.config';
-import { authConfig } from './auth.config';
-import { databaseConfig } from './database.config';
-import { minioConfig } from './minio.config';
-import { twilioConfig } from './twilio.config';
-import { otpConfig } from './otp.config';
+import { appConfig } from "./app.config";
+import { razorpayConfig } from "./razorpay.config";
+import { databaseConfig } from "./database.config";
+import { otpConfig } from "./otp.config";
 
-export const configs = [
-  appConfig,
-  authConfig,
-  databaseConfig,
-  minioConfig,
-  twilioConfig,
-  otpConfig,
-];
+export const configs = [appConfig, databaseConfig, razorpayConfig, otpConfig];
