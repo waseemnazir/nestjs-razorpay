@@ -14,6 +14,7 @@ import { AbstractApiResponse } from "src/utils/general-response";
 import { RazorpayService } from "./razorpay/services/razorpay.service";
 import { CreateRazorpayOrderDTO } from "./razorpay/dto/create-order.dto";
 import { ApiQuery, ApiTags } from "@nestjs/swagger";
+import { RazorpayTransactionDTO } from "./razorpay/dto/transaction.dto";
 
 @ApiTags("razorpay-payments")
 @Controller({
@@ -93,12 +94,37 @@ export class PaymentsController {
     @Query("payments") payments?: boolean
   ): Promise<AbstractApiResponse<T>> {
     try {
-      const order = await this.razorpayService.getOrder(orderId , payments);
+      const order = await this.razorpayService.getOrder(orderId, payments);
       const response = AbstractApiResponse.success(order as T);
       this.logger.log("Order fetched successfully");
       return response;
     } catch (error) {
       this.logger.error("Error during order fetching", error);
+      throw new HttpException(
+        {
+          data: error.response.data,
+          error: error.response.error,
+          status: error.response.status,
+          message: error.response.message,
+        },
+        error.response.status
+      );
+    }
+  }
+
+  @Post("payments/verify")
+  @HttpCode(HttpStatus.OK)
+  async validatetransaction<T>(
+    @Body() verifyTransactionDTO: RazorpayTransactionDTO
+  ): Promise<AbstractApiResponse<T>> {
+    try {
+      const verifyTransaction =
+        await this.razorpayService.verifyTransaction(verifyTransactionDTO);
+      const response = AbstractApiResponse.success(verifyTransaction as T);
+      this.logger.log("Transaction verified successfully");
+      return response;
+    } catch (error) {
+      this.logger.error("Error during transaction verification", error);
       throw new HttpException(
         {
           data: error.response.data,
