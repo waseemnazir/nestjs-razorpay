@@ -7,7 +7,7 @@ export class RazorpayTransactionDTO {
   */
   @ApiProperty({ example: "pay_NpnRE0Imb60fBB" })
   @IsString()
-  razorpay_payment_id: number;
+  razorpay_payment_id: string;
 
   /* 
   order id for which payment has been done
